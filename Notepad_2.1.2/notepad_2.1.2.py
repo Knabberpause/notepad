@@ -9,7 +9,7 @@ from tkinter import ttk
 
 root = Tk()
 root.title("Notepad Basic")
-root.iconbitmap('appico.ico')
+root.wm_iconbitmap('appicon.ico')
 root.resizable(False, False)
 
 notebook = ttk.Notebook(root)
