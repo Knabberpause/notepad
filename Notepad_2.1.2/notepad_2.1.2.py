@@ -104,8 +104,8 @@ def OpenFile():
 
         pad4.insert(END, opendata)
     except:
-        if messagebox.askokcancel("Notepad Error Dialog", "There has been a critical error in the application, please restart"):
-            root.destroy()
+        if messagebox.askokcancel("Notepad Error Dialog", "There has bene an error in the application"):
+            pass
 
 
 #FIRST PAGE
