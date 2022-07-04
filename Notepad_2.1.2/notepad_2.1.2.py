@@ -21,8 +21,7 @@ filetypes = (
         ('All files', '*.*')
     )
 sbphoto = PhotoImage(file = r'saveb.png')
-obphoto = PhotoImage(file = r'openb.png')
-
+obphoto = PhotoImage(file = r"openb.png")
 
 try:
     cftest = open('config1.txt', 'x')
