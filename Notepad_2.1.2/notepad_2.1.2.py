@@ -20,8 +20,17 @@ filetypes = (
         ('Text Files', '*.txt'),
         ('All files', '*.*')
     )
-sbphoto = PhotoImage(file = r'saveb.png')
-obphoto = PhotoImage(file = r"openb.png")
+
+try:
+    sbphoto = PhotoImage(file = r'saveb.png')
+    obphoto = PhotoImage(file = r"openb.png")
+except:
+    messagebox.showinfo("NOTEPAD ERROR DIALOG", """
+    Please move the 3 image files bundled with the application into the same folder as it
+    If you don't have these files, download them from the github page
+    at https://github.com/Knabberpause/notepad/releases
+    """
+    )
 
 try:
     cftest = open('config1.txt', 'x')
