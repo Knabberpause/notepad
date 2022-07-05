@@ -14,19 +14,15 @@ root.resizable(False, False)
 notebook = ttk.Notebook(root)
 notebook.pack(pady=10, expand=True)
 
-def settings():
-    sw = Tk()
-
-    swnotebook = ttk.notebook(sw)
-    swnotebook.pack(pady=10, expand=True)
-
-    sw.mainloop()
+def exitwosave():
+    if messagebox.askokcancel("Quit", "Are you sure that you want to quit ?"):
+            root.destroy()
+        
 
 menubar = Menu(root, activebackground="white")
-menus = Menu(menubar, tearoff=1)  
 root.config(menu=menubar)
 
-menus.add_command(text="Settings", command=settings())
+menubar.add_command(label="Exit", command=exitwosave)
 
 #PREREQUISITE VARIABLES
 saved = "no"
@@ -47,10 +43,6 @@ except:
     )
 
 
-def exitwosave():
-    if messagebox.askokcancel("Quit", "Are you sure that you want to quit ?"):
-            root.destroy()
-        
 
 #PAGE PREREQ DEFINES
 page1 = ttk.Frame(notebook, width=650, height=400)
