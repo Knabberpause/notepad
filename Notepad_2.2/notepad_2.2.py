@@ -1,4 +1,4 @@
-from os import fdopen
+from os import fdopen as fd
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import filedialog as fd
@@ -32,22 +32,11 @@ except:
     """
     )
 
-try:
-    cftest = open('config1.txt', 'x')
-    cftest.write('n')
-except:
-    cftest = open('config1.txt', 'w')
-    cftest.write('n')
 
 def exitwosave():
-    configfile = open('config1.txt', 'r')
-    cfsdata = configfile.read()
-    if cfsdata == 'y':
-        configfile.close()
-        root.destroy()      
-    else:
-        if messagebox.askokcancel("Quit", "Are you sure that you want to quit without saving?"):
+    if messagebox.askokcancel("Quit", "Are you sure that you want to quit ?"):
             root.destroy()
+        
 
 #PAGE PREREQ DEFINES
 page1 = ttk.Frame(notebook, width=650, height=400)
@@ -59,10 +48,11 @@ pad2 = Text(page2, bg='#aca8b7')
 page3 = ttk.Frame(notebook, width=650, height=400)
 pad3 = Text(page3, bg='#aca8b7')
 
+global pad4
 page4 = ttk.Frame(notebook, width=650, height=400)
 pad4 = Text(page4, bg='#aca8b7')
 sf4 = StringVar()
-sf4data = StringVar()
+sf4data =StringVar()
 
 def SaveFile1():
     f = asksaveasfile(mode='w', defaultextension=".txt")
@@ -98,7 +88,14 @@ def SaveFile3():
     configfile.write('y')
 
 def SaveFile4():
-    sf4=sf4.get()
+    sf4data=pad4.get("1.0","end")
+    print(sf4)
+
+    sf4file = open(sf4, 'w')
+    sf4file.write(sf4data)
+
+    if messagebox.askokcancel("File Save Dialog", "File has been saved successfully"):
+            pass
         
 
 root.protocol("WM_DELETE_WINDOW", exitwosave)
@@ -107,26 +104,25 @@ def OpenFile():
     try:
         fdopen = fd.askopenfilename(initialdir='/', title="select file",
                                       filetypes=(("Text Files",".txt"), ("All Files","*.*")))
-    
         openfile = open(fdopen)
         opendata = openfile.read()
+        global sf4
         sf4 = fdopen
+        pad4.insert(END, opendata)
 
         page4.pack(fill='both', expand=True)
         
         pad4.pack()
         notebook.add(page4, text=fdopen)
 
-        autosavecheck = Checkbutton(root, text='Autosave',variable=sf4, onvalue=1, offvalue=0, command=SaveFile4)
+        savebutton4 = Button(page4, image = sbphoto, command = SaveFile4)
+        savebutton4.pack(side=LEFT)
         openbutton4 = Button(page4, image=obphoto, command = OpenFile)
         openbutton4.pack(side=LEFT)
-
-        pad4.insert(END, opendata)
-
-
     except:
         if messagebox.askokcancel("Notepad Error Dialog", "There has been an error in the application"):
             pass
+
 
 
 #FIRST PAGE
