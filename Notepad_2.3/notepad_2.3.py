@@ -14,6 +14,20 @@ root.resizable(False, False)
 notebook = ttk.Notebook(root)
 notebook.pack(pady=10, expand=True)
 
+def settings():
+    sw = Tk()
+
+    swnotebook = ttk.notebook(sw)
+    swnotebook.pack(pady=10, expand=True)
+
+    sw.mainloop()
+
+menubar = Menu(root, activebackground="white")
+menus = Menu(menubar, tearoff=1)  
+root.config(menu=menubar)
+
+menus.add_command(text="Settings", command=settings())
+
 #PREREQUISITE VARIABLES
 saved = "no"
 filetypes = (
