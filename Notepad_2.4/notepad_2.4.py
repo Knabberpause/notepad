@@ -7,6 +7,7 @@ from tkinter.filedialog import *
 from tkinter import messagebox
 from tkinter import ttk
 
+
 root = Tk()
 root.title("Notepad Basic")
 root.resizable(False, False)
@@ -19,10 +20,7 @@ def exitwosave():
             root.destroy()
         
 
-menubar = Menu(root, activebackground="white")
-root.config(menu=menubar)
 
-menubar.add_command(label="Exit", command=exitwosave)
 
 #PREREQUISITE VARIABLES
 saved = "no"
@@ -126,10 +124,35 @@ def OpenFile():
         openbutton4 = Button(page4, image=obphoto, command = OpenFile)
         openbutton4.pack(side=LEFT)
     except:
-        if messagebox.askokcancel("Notepad Error Dialog", "There has been an error in the application"):
+        if messagebox.showerror("Notepad Error Dialog", "There has been an error in the application"):
             pass
 
 
+menubar = Menu(root, activebackground="white")
+root.config(menu=menubar)
+
+filemenu = Menu(menubar, tearoff=0)
+filemenu.add_command(label='Open File', command=OpenFile)
+
+menubar.add_cascade(
+    label="File",
+    menu=filemenu
+)
+
+padmenu = Menu(menubar, tearoff=0)
+padmenu.add_command(label='Save Notebook 1', command=SaveFile1)
+padmenu.add_command(label='Save Notebook 2', command=SaveFile2)
+padmenu.add_command(label='Save Notebook 3', command=SaveFile3)
+padmenu.add_command(label='Save Notebook 4', command=SaveFile4)
+
+
+menubar.add_cascade(
+    label="Notebook",
+    menu=padmenu
+)
+
+
+menubar.add_command(label="Exit", command=exitwosave)
 
 #FIRST PAGE
 page1.pack(fill='both', expand=True)
