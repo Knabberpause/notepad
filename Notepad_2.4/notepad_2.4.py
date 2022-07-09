@@ -8,7 +8,7 @@ from tkinter.filedialog import asksaveasfile
 from tkinter.filedialog import *
 from tkinter import messagebox
 from tkinter import ttk
-
+import webbrowser
 
 root = Tk()
 root.title("Notepad Basic")
@@ -33,13 +33,21 @@ def aboutapp():
     """
     )
 
+def settings():
+    settingswin = Tk()
+    settingswin.title("Settings")
+    settingswin.iconbitmap("appdata/appicon.ico")
+    setnotebook = ttk.Notebook(settingswin)
+    setnotebook.pack(pady=10, expand=True)
+    
+    set_fonts = ttk.Frame(setnotebook, width=400, height=300)
+    setnotebook.add(set_fonts, text="Fonts")
+
+    settingswin.mainloop()
+
 #PREREQUISITE VARIABLES
 
 saved = "no"
-filetypes = (
-        ('Text Files', '*.txt'),
-        ('All files', '*.*')
-    )
 
 try:
     sbphoto = PhotoImage(file = r'appdata/saveb.png')
@@ -168,6 +176,7 @@ menubar.add_cascade(
 
 
 menubar.add_command(label="Exit", command=exitwosave)
+menubar.add_command(label="Settings", command=settings)
 
 #FIRST PAGE
 page1.pack(fill='both', expand=True)
