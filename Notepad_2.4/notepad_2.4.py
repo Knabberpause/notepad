@@ -21,6 +21,14 @@ def exitwosave():
     if messagebox.askokcancel("Quit", "Are you sure that you want to quit ?"):
             root.destroy()
         
+#CONFIG FILE GUIDE
+#config files located in appdata/config
+#config 1= saving
+#config2 - fonts
+
+fontconf = open('appdata/config/config2.txt', 'r')
+def_font = fontconf.read()
+fontconf.close()
 
 def aboutapp():
     messagebox.showinfo("About Notepad", """
@@ -33,6 +41,7 @@ def aboutapp():
     """
     )
 
+
 def settings():
     settingswin = Tk()
     settingswin.title("Settings")
@@ -42,6 +51,12 @@ def settings():
     
     set_fonts = ttk.Frame(setnotebook, width=400, height=300)
     setnotebook.add(set_fonts, text="Fonts")
+
+    #FONTS PAGE
+    font_conf = StringVar()
+    fontconfig = open('appdata/config/config2.txt', 'w')
+    sfc_1 = Radiobutton(set_fonts, text="Helvetica")
+
 
     settingswin.mainloop()
 
@@ -64,17 +79,17 @@ except:
 
 #PAGE PREREQ DEFINES
 page1 = ttk.Frame(notebook, width=650, height=400)
-pad1 = Text(page1, bg='#aca8b7')
+pad1 = Text(page1, bg='#aca8b7', font=def_font)
 
 page2 = ttk.Frame(notebook, width=650, height=400)
-pad2 = Text(page2, bg='#aca8b7')
+pad2 = Text(page2, bg='#aca8b7', font=def_font)
 
 page3 = ttk.Frame(notebook, width=650, height=400)
-pad3 = Text(page3, bg='#aca8b7')
+pad3 = Text(page3, bg='#aca8b7', font=def_font)
 
 global pad4
 page4 = ttk.Frame(notebook, width=650, height=400)
-pad4 = Text(page4, bg='#aca8b7')
+pad4 = Text(page4, bg='#aca8b7', font=def_font)
 sf4 = StringVar()
 sf4data =StringVar()
 
