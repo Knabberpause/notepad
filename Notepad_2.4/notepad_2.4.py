@@ -1,4 +1,6 @@
 from os import fdopen as fd
+from os import *
+import datetime
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import filedialog as fd
@@ -20,9 +22,19 @@ def exitwosave():
             root.destroy()
         
 
+def aboutapp():
+    messagebox.showinfo("About Notepad", """
+    ABOUT NOTEPAD
 
+    Notepad v2.4.1
+    Built by TSMSD Software Development
+    Python 3.10.4
+    Libraries: os, tkinter
+    """
+    )
 
 #PREREQUISITE VARIABLES
+
 saved = "no"
 filetypes = (
         ('Text Files', '*.txt'),
@@ -30,16 +42,16 @@ filetypes = (
     )
 
 try:
-    sbphoto = PhotoImage(file = r'saveb.png')
-    obphoto = PhotoImage(file = r"openb.png")
+    sbphoto = PhotoImage(file = r'appdata/saveb.png')
+    obphoto = PhotoImage(file = r"appdata/openb.png")
+    root.iconbitmap("appdata/appicon.ico")
 except:
     messagebox.showinfo("NOTEPAD ERROR DIALOG", """
-    Please move the 3 image files bundled with the application into the same folder as it
+    Please move the 3 image files bundled with the application into the applications 'appdata' folder
     If you don't have these files, download them from the github page
     at https://github.com/Knabberpause/notepad/releases
     """
     )
-
 
 
 #PAGE PREREQ DEFINES
@@ -92,15 +104,17 @@ def SaveFile3():
     configfile.write('y')
 
 def SaveFile4():
-    sf4data=pad4.get("1.0","end")
-    print(sf4)
+    try:
+        sf4data=pad4.get("1.0","end")
+        print(sf4)
 
-    sf4file = open(sf4, 'w')
-    sf4file.write(sf4data)
+        sf4file = open(sf4, 'w')
+        sf4file.write(sf4data)
 
-    if messagebox.askokcancel("File Save Dialog", "File has been saved successfully"):
+        if messagebox.askokcancel("File Save Dialog", "File has been saved successfully"):
             pass
-        
+    except:
+        messagebox.showerror("Notepad Error Dialog", "This operation is unavailable currently")
 
 root.protocol("WM_DELETE_WINDOW", exitwosave)
 
@@ -133,6 +147,7 @@ root.config(menu=menubar)
 
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label='Open File', command=OpenFile)
+filemenu.add_command(label='About', command=aboutapp)
 
 menubar.add_cascade(
     label="File",
