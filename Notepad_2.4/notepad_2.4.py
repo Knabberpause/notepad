@@ -1,6 +1,6 @@
 from os import fdopen as fd
-from os import *
-import datetime
+import os
+import pickle
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import filedialog as fd
@@ -8,7 +8,6 @@ from tkinter.filedialog import asksaveasfile
 from tkinter.filedialog import *
 from tkinter import messagebox
 from tkinter import ttk
-import webbrowser
 
 root = Tk()
 root.title("Notepad Basic")
@@ -25,11 +24,23 @@ def exitwosave():
 #config files located in appdata/config
 #config 1= saving
 #config2 - fonts
+font_conf = StringVar()
+sfc_lb = Variable()
 
-fontconf = open('appdata/config/config2.txt', 'r')
-def_font = fontconf.read()
-fontconf.close()
+sfc_current_mes = StringVar()
+fontconfig = StringVar()
 
+try:
+    fontconfile = open("appdata/config/config2.txt", "r")
+    
+    fontconfig = str(fontconfile.read())
+    def_font=fontconfig
+
+except:
+    def_font="Helvetica"
+
+
+sfc_current_mes=(f'You are currently using {fontconfig}')
 def aboutapp():
     messagebox.showinfo("About Notepad", """
     ABOUT NOTEPAD
@@ -41,6 +52,11 @@ def aboutapp():
     """
     )
 
+def settingschangefont():
+    fontconfile = open("appdata/config/config2.txt", "w")
+    fontconf = sfc_lb.get()
+    fontconfile.write(fontconf)
+    
 
 def settings():
     settingswin = Tk()
@@ -53,10 +69,16 @@ def settings():
     setnotebook.add(set_fonts, text="Fonts")
 
     #FONTS PAGE
-    font_conf = StringVar()
-    fontconfig = open('appdata/config/config2.txt', 'w')
-    sfc_1 = Radiobutton(set_fonts, text="Helvetica")
+    sfc_lb = Listbox(set_fonts)
+    sfc_lb.insert(1, "Helvetica")
+    sfc_lb.insert(2, "Arial")
+    sfc_lb.pack()
 
+    sfc_apply = Button(set_fonts, text="Apply", command=settingschangefont)
+    sfc_apply.pack()
+
+    sfc_current = Label(set_fonts, textvariable=sfc_current_mes)
+    sfc_current.pack()
 
     settingswin.mainloop()
 
@@ -69,7 +91,7 @@ try:
     obphoto = PhotoImage(file = r"appdata/openb.png")
     root.iconbitmap("appdata/appicon.ico")
 except:
-    messagebox.showinfo("NOTEPAD ERROR DIALOG", """
+    messagebox.showerror("NOTEPAD ERROR DIALOG", """
     Please move the 3 image files bundled with the application into the applications 'appdata' folder
     If you don't have these files, download them from the github page
     at https://github.com/Knabberpause/notepad/releases
