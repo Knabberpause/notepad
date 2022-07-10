@@ -1,6 +1,5 @@
 from os import fdopen as fd
 import os
-import pickle
 from tkinter import *
 from tkinter.ttk import *
 from tkinter import filedialog as fd
@@ -24,22 +23,25 @@ def exitwosave():
 #config files located in appdata/config
 #config 1= saving
 #config2 - fonts
-font_conf = StringVar()
-sfc_lb = Variable()
 
 sfc_current_mes = StringVar()
 fontconfig = StringVar()
+global def_font
+def_font = ""
 
 try:
-    fontconfile = open("appdata/config/config2.txt", "r")
+    fontconfile = open("appdata/config/config2.txt", "rt")
     
     fontconfig = str(fontconfile.read())
+    if fontconfig == "":
+        fontconfile.write("Calibri")
+    else:
+        pass
     def_font=fontconfig
 except:
-    messagebox.showerror("Notepad Error Dialog", "Files not found. Dependency Error")
+    messagebox.showerror("Notepad Error Dialog", "Settings Preferences not found. Default settings applied.")
 
 
-sfc_current_mes=(f'You are currently using {fontconfig}')
 def aboutapp():
     messagebox.showinfo("About Notepad", """
     ABOUT NOTEPAD
@@ -51,10 +53,15 @@ def aboutapp():
     """
     )
 
-def settingschangefont():
+
+def settingschangefont(scf_chosen):
+    fcsel = scf_chosen
+    print(fcsel)
     fontconfile = open("appdata/config/config2.txt", "w")
-    fontconf = sfc_lb.get()
-    fontconfile.write(fontconf)
+    fontconfile.write(fcsel)
+    fontconfile.close()
+
+    def_font=fcsel
     
 
 def settings():
@@ -68,19 +75,11 @@ def settings():
     setnotebook.add(set_fonts, text="Fonts")
 
     #FONTS PAGE
-    try:
-        sfc_lb = Listbox(set_fonts)
-        sfc_lb.insert(1, "Helvetica")
-        sfc_lb.insert(2, "Arial")
-        sfc_lb.pack()
+    sfc_courier = Button(set_fonts, text="Courier", font="Courier 15",command=settingschangefont('Courier'))
+    sfc_courier.pack()
 
-        sfc_apply = Button(set_fonts, text="Apply", command=settingschangefont)
-        sfc_apply.pack()
-
-        sfc_current = Label(set_fonts, textvariable=sfc_current_mes)
-        sfc_current.pack()
-    except:
-        pass
+    sfc_bahnschrift = Button(set_fonts, text="Bahnschrift", font="Bahnschrift Light 15", command=settingschangefont('Bahnschrift'))
+    sfc_bahnschrift.pack()
 
     settingswin.mainloop()
 
