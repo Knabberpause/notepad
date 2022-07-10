@@ -35,9 +35,8 @@ try:
     
     fontconfig = str(fontconfile.read())
     def_font=fontconfig
-
 except:
-    def_font="Helvetica"
+    messagebox.showerror("Notepad Error Dialog", "Files not found. Dependency Error")
 
 
 sfc_current_mes=(f'You are currently using {fontconfig}')
@@ -69,16 +68,19 @@ def settings():
     setnotebook.add(set_fonts, text="Fonts")
 
     #FONTS PAGE
-    sfc_lb = Listbox(set_fonts)
-    sfc_lb.insert(1, "Helvetica")
-    sfc_lb.insert(2, "Arial")
-    sfc_lb.pack()
+    try:
+        sfc_lb = Listbox(set_fonts)
+        sfc_lb.insert(1, "Helvetica")
+        sfc_lb.insert(2, "Arial")
+        sfc_lb.pack()
 
-    sfc_apply = Button(set_fonts, text="Apply", command=settingschangefont)
-    sfc_apply.pack()
+        sfc_apply = Button(set_fonts, text="Apply", command=settingschangefont)
+        sfc_apply.pack()
 
-    sfc_current = Label(set_fonts, textvariable=sfc_current_mes)
-    sfc_current.pack()
+        sfc_current = Label(set_fonts, textvariable=sfc_current_mes)
+        sfc_current.pack()
+    except:
+        pass
 
     settingswin.mainloop()
 
