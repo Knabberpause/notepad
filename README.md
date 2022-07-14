@@ -8,4 +8,4 @@ It can save text files, have up to 3 pads open simeaultaneously, and one opened 
 This project is being constantly worked on, so you can expect regular updates. My Developer log for this project is inside the Wiki page.
 
 It is built using Python and the Tkinter library.
-Latest release: 2.4 (17/7/22)
+Latest release: 2.4 (14/7/22)
