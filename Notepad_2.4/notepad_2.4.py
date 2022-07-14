@@ -1,7 +1,6 @@
 from os import fdopen as fd
 import os
 import tkinter as tk
-
 from tkinter.ttk import *
 from tkinter import filedialog as fd
 from tkinter.filedialog import asksaveasfile
@@ -9,7 +8,6 @@ from tkinter.filedialog import *
 from tkinter import messagebox
 from tkinter import ttk
 from tkinter import *
-from token import LEFTSHIFT
 
 root = tk.Tk()
 root.title("Notepad Basic")
@@ -28,35 +26,44 @@ def exitwosave():
 #config2 - fonts
 #config3 - colours
 
-sfc_current_mes = tk.StringVar()
-fontconfig = tk.StringVar()
+try:
+    sfc_current_mes = tk.StringVar()
+
+    fontconfile = open("appdata/config/config2.txt", "rt")
+        
+    fontconfig = fontconfile.read()
+    fontconfig = str(fontconfig)
+    fontconfile.close()
+    if fontconfig == "":
+        def_font = "Calibri"
+        fontconfile = open("appdata/config/config2.txt", "wt")
+        fontconfile.write("Calibri")
+        fontconfile.close()
+
+    else:
+        fontconfile = open("appdata/config/config2.txt", 'rt')
+        def_font = str(fontconfile.read())
+        fontconfile.close()
+except:
+    messagebox.showerror("Notepad Error Dialog", "Please restart app. Internal Error")
 
 try:
-    fontconfile = open("appdata/config/config2.txt", "rt")
-    colourconfile = open("appdata/config/config3.txt", 'rt')
-    
-    fontconfig = str(fontconfile.read())
-    if fontconfig == "":
-        fontconfile.write("Calibri")
-        
-    else:
-        pass
-
-    def_font = fontconfig
-    colourconfig = str(colourconfile.read())
-    if colourconfig == "":
-        colourconfile.write("")
-    else:
-        pass
-
-except:
-    messagebox.showerror("Notepad Error Dialog", "Settings Preferences not found. Default settings applied.")
-    fontconfile = open("appdata/config/config2.txt", "wt")
-    colourconfile = open("appdata/config/config3.txt", 'x')
+    colourconfile = open("appdata/config/config3.txt", 'r')
+    colours = str(colourconfile.read())
     colourconfile.close()
+    if colours == "":
+        colourconfile = open("appdata/config/config3.txt", 'wt')
+        colourconfile.write("Grey")
+        colourconfile.close()
+        colourconfig = "Grey"
+    else:
+        colourconfig = colours
 
-    fontconfile.write("Calibri")
-    fontconfile.close()
+    colourconfile.close()
+except:
+    messagebox.showerror("Notepad Error Dialog", "Please restart app. Internal Error")
+
+
 
 
 def aboutapp():
@@ -66,6 +73,8 @@ def aboutapp():
     Notepad v2.4.1
     Built by TSMSD Software Development
     Python 3.10.4
+
+    
     Libraries: os, tkinter
     """
     )
@@ -147,7 +156,7 @@ try:
     if config3 == "Red":
         sbphoto = tk.PhotoImage(file = r'appdata/alt_buttons/saveb_red.png')
         obphoto = tk.PhotoImage(file = r"appdata/alt_buttons/openb_red.png")
-    else:
+    elif config3 == "Grey":
         sbphoto = tk.PhotoImage(file = r'appdata/saveb.png')
         obphoto = tk.PhotoImage(file = r"appdata/openb.png")
 
