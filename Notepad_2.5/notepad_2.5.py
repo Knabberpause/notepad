@@ -227,11 +227,18 @@ pad2 = tk.Text(page2, fg=fontcolcode, bg='#aca8b7', font=def_font)
 page3 = ttk.Frame(notebook, width=650, height=400)
 pad3 = tk.Text(page3, fg=fontcolcode, bg='#aca8b7', font=def_font)
 
-global pad4
-page4 = ttk.Frame(notebook, width=650, height=400)
-pad4 = tk.Text(page4, fg=fontcolcode, bg='#aca8b7', font=def_font)
-sf4 = tk.StringVar()
-sf4data = tk.StringVar()
+def SaveFile4():
+    try:
+        sf4data=pad4.get("1.0","end")
+        print(sf4)
+
+        sf4file = open(sf4, 'w')
+        sf4file.write(sf4data)
+
+        if messagebox.askokcancel("File Save Dialog", "File has been saved successfully"):
+            pass
+    except:
+        messagebox.showerror("Notepad Error Dialog", "This operation is unavailable currently")
 
 def CloseFile():
     if messagebox.askokcancel("Notepad User Dialog", "Are you sure that you want to close this?"):
@@ -239,6 +246,16 @@ def CloseFile():
     config4 = open("appdata/config/config4.txt", 'w')
     config4.write("no")
     config4.close()
+    pad4.delete(1.0, END)
+
+global pad4
+page4 = ttk.Frame(notebook, width=650, height=400)
+pad4 = tk.Text(page4, fg=fontcolcode, bg='#aca8b7', font=def_font)
+sf4 = tk.StringVar()
+sf4data = tk.StringVar()
+savebutton4 = tk.Button(page4, image = sbphoto, command = SaveFile4)
+closebutton4 = tk.Button(page4, image=cbphoto, command=CloseFile)
+
 
 def OpenFile():
     config4 = open("appdata/config/config4.txt", 'r')
@@ -259,11 +276,7 @@ def OpenFile():
             pad4.pack()
             notebook.add(page4, text=fdopen)
 
-            savebutton4 = tk.Button(page4, image = sbphoto, command = SaveFile4)
             savebutton4.pack(side=LEFT)
-            openbutton4 = tk.Button(page4, image=obphoto, command = OpenFile)
-            openbutton4.pack(side=LEFT)
-            closebutton4 = tk.Button(page4, image=cbphoto, command=CloseFile)
             closebutton4.pack(side=LEFT)
 
             config4 = open("appdata/config/config4.txt", 'w')
@@ -310,18 +323,6 @@ def SaveFile3():
     configfile = open('appdata/config1.txt', 'w')
     configfile.write('y')
 
-def SaveFile4():
-    try:
-        sf4data=pad4.get("1.0","end")
-        print(sf4)
-
-        sf4file = open(sf4, 'w')
-        sf4file.write(sf4data)
-
-        if messagebox.askokcancel("File Save Dialog", "File has been saved successfully"):
-            pass
-    except:
-        messagebox.showerror("Notepad Error Dialog", "This operation is unavailable currently")
 
 root.protocol("WM_DELETE_WINDOW", exitwosave)
 
