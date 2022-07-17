@@ -135,16 +135,16 @@ def settings():
     setnotebook = ttk.Notebook(settingswin)
     setnotebook.pack(pady=10, expand=True)
         
-    set_fonts = ttk.Frame(setnotebook, width=400, height=300)
+    set_fonts = ttk.Frame(setnotebook, width=500, height=350)
     setnotebook.add(set_fonts, text="Fonts")
 
     set_colours = ttk.Frame(setnotebook, width=400, height=300)
     setnotebook.add(set_colours, text="Colours")
 
     #FONTS PAGE
-    sfc_courier = tk.Button(set_fonts, text='Courier', font='Courier', command=sfc_courier_func)
-    sfc_bahnschrift = tk.Button(set_fonts, text='Bahnschrift', font="Bahnschrift", command=sfc_bahnschrift_func)
-    sfc_calibri = tk.Button(set_fonts, text='Calibri', font="Calibri", command=sfc_calibri_func)
+    sfc_courier = tk.Button(set_fonts, text='Courier', font='Courier 16', command=sfc_courier_func)
+    sfc_bahnschrift = tk.Button(set_fonts, text='Bahnschrift', font="Bahnschrift 16", command=sfc_bahnschrift_func)
+    sfc_calibri = tk.Button(set_fonts, text='Calibri', font="Calibri 16", command=sfc_calibri_func)
     sfc_calibri.pack()
     sfc_courier.pack()
     sfc_bahnschrift.pack()
