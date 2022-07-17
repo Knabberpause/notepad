@@ -64,13 +64,17 @@ except:
     messagebox.showerror("Notepad Error Dialog", "Please restart app. Internal Error")
 
 
+config4 = open('appdata/config/config4.txt', 'w')
+config4.write("no")
+config4.close()
+opened="no"
 
 
 def aboutapp():
     messagebox.showinfo("About Notepad", """
     ABOUT NOTEPAD
 
-    Notepad v2.4.1
+    Notepad v2.5.1
     Built by TSMSD Software Development
     Python 3.10.4
 
@@ -110,6 +114,18 @@ def scc_def_func():
     colourconfile.close()
     messagebox.showinfo("Notepad Settings", "Please restart app for the changes to take effect")
 
+def scc_blue_func():
+    colourconfile = open("appdata/config/config3.txt", "w")
+    colourconfile.write("Blue")
+    colourconfile.close()
+    messagebox.showinfo("Notepad Settings", "Please restart app for the changes to take effect")
+
+def scc_green_func():
+    colourconfile = open("appdata/config/config3.txt", "w")
+    colourconfile.write("Green")
+    colourconfile.close()
+    messagebox.showinfo("Notepad Settings", "Please restart app for the changes to take effect")
+
 def settings():
     settingswin = tk.Tk()
     settingswin.title("Settings")
@@ -126,9 +142,9 @@ def settings():
     setnotebook.add(set_colours, text="Colours")
 
     #FONTS PAGE
-    sfc_courier = tk.Button(set_fonts, text='Courier', command=sfc_courier_func)
-    sfc_bahnschrift = tk.Button(set_fonts, text='Bahnschrift', command=sfc_bahnschrift_func)
-    sfc_calibri = tk.Button(set_fonts, text='Calibri', command=sfc_calibri_func)
+    sfc_courier = tk.Button(set_fonts, text='Courier', font='Courier', command=sfc_courier_func)
+    sfc_bahnschrift = tk.Button(set_fonts, text='Bahnschrift', font="Bahnschrift", command=sfc_bahnschrift_func)
+    sfc_calibri = tk.Button(set_fonts, text='Calibri', font="Calibri", command=sfc_calibri_func)
     sfc_calibri.pack()
     sfc_courier.pack()
     sfc_bahnschrift.pack()
@@ -140,7 +156,12 @@ def settings():
 
     scc_red =  tk.Button(set_colours, text="Red", fg="Red", command=scc_red_func)
     scc_red.pack()
+    scc_blue =  tk.Button(set_colours, text="Blue", fg="Dark Blue", command=scc_blue_func)
+    scc_blue.pack()
+    scc_green =  tk.Button(set_colours, text="Green", fg="Dark Green", command=scc_green_func)
+    scc_green.pack()
 
+    
     scc_grey =  tk.Button(set_colours, text="Grey (Default)", fg="Dark Grey", command=scc_def_func)
     scc_grey.pack()
     settingswin.mainloop()
@@ -156,11 +177,27 @@ try:
     if config3 == "Red":
         sbphoto = tk.PhotoImage(file = r'appdata/alt_buttons/saveb_red.png')
         obphoto = tk.PhotoImage(file = r"appdata/alt_buttons/openb_red.png")
+        cbphoto = tk.PhotoImage(file=r'appdata/alt_buttons/closeb_red.png')
+        fontcol = "Red"
     elif config3 == "Grey":
         sbphoto = tk.PhotoImage(file = r'appdata/saveb.png')
         obphoto = tk.PhotoImage(file = r"appdata/openb.png")
+        cbphoto = tk.PhotoImage(file=r'appdata/closeb.png')
+        fontcol="Black"
+    elif config3 == "Blue":
+        sbphoto = tk.PhotoImage(file = r'appdata/alt_buttons/saveb_blue.png')
+        obphoto = tk.PhotoImage(file = r"appdata/alt_buttons/openb_blue.png")
+        cbphoto = tk.PhotoImage(file=r'appdata/alt_buttons/closeb_blue.png')
+        fontcol="Blue"
+    elif config3 == "Green":
+        sbphoto = tk.PhotoImage(file = r'appdata/alt_buttons/saveb_green.png')
+        obphoto = tk.PhotoImage(file = r"appdata/alt_buttons/openb_green.png")
+        cbphoto = tk.PhotoImage(file=r'appdata/alt_buttons/closeb_green.png')
+        fontcol = "Green"
 
-    
+
+
+
     root.iconbitmap("appdata/appicon.ico")
 except:
     messagebox.showerror("NOTEPAD ERROR DIALOG", """
@@ -172,43 +209,72 @@ except:
 
 
 #PAGE PREREQ DEFINES
+if fontcol == "Red":
+    fontcolcode = '#741f1f'
+elif fontcol == "Black":
+    fontcolcode = "Black"
+elif fontcol == "Blue":
+    fontcolcode = "#121243"
+elif fontcol == "Green":
+    fontcolcode = "1e3615"
+
 page1 = ttk.Frame(notebook, width=650, height=400)
-pad1 = tk.Text(page1, bg='#aca8b7', font=def_font)
+pad1 = tk.Text(page1, fg=fontcolcode ,bg='#aca8b7', font=def_font)
 
 page2 = ttk.Frame(notebook, width=650, height=400)
-pad2 = tk.Text(page2, bg='#aca8b7', font=def_font)
+pad2 = tk.Text(page2, fg=fontcolcode, bg='#aca8b7', font=def_font)
 
 page3 = ttk.Frame(notebook, width=650, height=400)
-pad3 = tk.Text(page3, bg='#aca8b7', font=def_font)
+pad3 = tk.Text(page3, fg=fontcolcode, bg='#aca8b7', font=def_font)
 
 global pad4
 page4 = ttk.Frame(notebook, width=650, height=400)
-pad4 = tk.Text(page4, bg='#aca8b7', font=def_font)
+pad4 = tk.Text(page4, fg=fontcolcode, bg='#aca8b7', font=def_font)
 sf4 = tk.StringVar()
 sf4data = tk.StringVar()
 
+def CloseFile():
+    if messagebox.askokcancel("Notepad User Dialog", "Are you sure that you want to close this?"):
+        notebook.forget(page4)
+    config4 = open("appdata/config/config4.txt", 'w')
+    config4.write("no")
+    config4.close()
+
 def OpenFile():
-    try:
-        fdopen = fd.askopenfilename(initialdir='/', title="select file",
-                                      filetypes=(("Text Files",".txt"), ("All Files","*.*")))
-        openfile = open(fdopen)
-        opendata = openfile.read()
-        global sf4
-        sf4 = fdopen
-        pad4.insert(END, opendata)
+    config4 = open("appdata/config/config4.txt", 'r')
+    opened = str(config4.read())
+    config4.close()
+    if opened == "no":
+        try:
+            fdopen = fd.askopenfilename(initialdir='/', title="select file",
+                                        filetypes=(("Text Files",".txt"), ("All Files","*.*")))
+            openfile = open(fdopen)
+            opendata = openfile.read()
+            global sf4
+            sf4 = fdopen
+            pad4.insert(END, opendata)
 
-        page4.pack(fill='both', expand=True)
-        
-        pad4.pack()
-        notebook.add(page4, text=fdopen)
+            page4.pack(fill='both', expand=True)
+            
+            pad4.pack()
+            notebook.add(page4, text=fdopen)
 
-        savebutton4 = tk.Button(page4, image = sbphoto, command = SaveFile4)
-        savebutton4.pack(side=LEFT)
-        openbutton4 = tk.Button(page4, image=obphoto, command = OpenFile)
-        openbutton4.pack(side=LEFT)
-    except:
-        if messagebox.showerror("Notepad Error Dialog", "There has been an error in the application"):
-            pass
+            savebutton4 = tk.Button(page4, image = sbphoto, command = SaveFile4)
+            savebutton4.pack(side=LEFT)
+            openbutton4 = tk.Button(page4, image=obphoto, command = OpenFile)
+            openbutton4.pack(side=LEFT)
+            closebutton4 = tk.Button(page4, image=cbphoto, command=CloseFile)
+            closebutton4.pack(side=LEFT)
+
+            config4 = open("appdata/config/config4.txt", 'w')
+            config4.write("yes")
+            config4.close()
+        except:
+            if messagebox.showerror("Notepad Error Dialog", "There has been an error in the application"):
+                pass
+    elif opened == "yes":
+        messagebox.showerror("Notepad Error Dialog", "This operation is currently unavailable")
+    
 
 def SaveFile1():
     f = asksaveasfile(mode='w', defaultextension=".txt")
