@@ -8,6 +8,7 @@ from tkinter.filedialog import *
 from tkinter import messagebox
 from tkinter import ttk
 from tkinter import *
+import sys
 
 root = tk.Tk()
 root.title("Notepad Basic")
@@ -15,6 +16,7 @@ root.resizable(False, False)
 
 notebook = ttk.Notebook(root)
 notebook.pack(pady=10, expand=True)
+
 
 def exitwosave():
     if messagebox.askokcancel("Quit", "Are you sure that you want to quit ?"):
@@ -62,6 +64,10 @@ try:
     colourconfile.close()
 except:
     messagebox.showerror("Notepad Error Dialog", "Please restart app. Internal Error")
+
+config5 = open('appdata/config/config5.txt', 'w')
+config5.write("1")
+config5.close()
 
 
 config4 = open('appdata/config/config4.txt', 'w')
@@ -256,6 +262,8 @@ sf4data = tk.StringVar()
 savebutton4 = tk.Button(page4, image = sbphoto, command = SaveFile4)
 closebutton4 = tk.Button(page4, image=cbphoto, command=CloseFile)
 
+page5 = ttk.Frame(notebook, width=650, height=400)
+pad5 = tk.Text(page5, fg=fontcolcode, bg='#aca8b7', font=def_font)
 
 def OpenFile():
     config4 = open("appdata/config/config4.txt", 'r')
@@ -288,6 +296,12 @@ def OpenFile():
     elif opened == "yes":
         messagebox.showerror("Notepad Error Dialog", "This operation is currently unavailable")
     
+def OFArgs(path):
+    notebook.add(page5, text=path)
+    pad5.pack()
+    argsfile = open(path, 'r')
+    pad5.insert(END, (argsfile.read()))
+   
 
 def SaveFile1():
     f = asksaveasfile(mode='w', defaultextension=".txt")
@@ -326,6 +340,46 @@ def SaveFile3():
 
 root.protocol("WM_DELETE_WINDOW", exitwosave)
 
+#PAGES 2+
+openbutton2 = tk.Button(page2, image=obphoto, command = OpenFile)
+savebutton2 = tk.Button(page2, image = sbphoto, command = SaveFile2)
+
+savebutton3 = tk.Button(page3, image = sbphoto, command = SaveFile3)
+openbutton3 = tk.Button(page3, image=obphoto, command = OpenFile)
+
+def addpage():
+    try:
+        config5 = open('appdata/config/config5.txt')
+        cf5 = config5.read()
+        config5.close()
+    except:
+        config5 = open('appdata/config/config5.txt', 'w')
+        config5.write("1")
+    
+    if cf5 == "1":
+        page2.pack(fill='both', expand=True)
+        pad2.pack()
+        notebook.add(page2, text='Notebook 2')
+        savebutton2.pack(side=LEFT)
+        openbutton2.pack(side=LEFT)
+
+        config5 = open('appdata/config/config5.txt', 'w')
+        config5.write("2")
+        config5.close()
+    elif cf5 == "2":
+        page3.pack(fill='both', expand=True)
+        pad3.pack()
+        notebook.add(page3, text='Notebook 3')
+        savebutton3.pack(side=LEFT)
+        openbutton3.pack(side=LEFT)
+
+        config5 = open('appdata/config/config5.txt', 'w')
+        config5.write("3")
+        config5.close()
+    else:
+        messagebox.showerror("Notepad User Dialog", 'This operation is unavailable currently')
+
+
 
 menubar = tk.Menu(root, activebackground="white")
 root.config(menu=menubar)
@@ -334,10 +388,14 @@ filemenu = tk.Menu(menubar, tearoff=0)
 filemenu.add_command(label='Open File', command=OpenFile)
 filemenu.add_command(label='About', command=aboutapp)
 
+#ADD PAGE
+menubar.add_command(label="Add Page", command=addpage)
+
 menubar.add_cascade(
     label="File",
     menu=filemenu
 )
+
 
 padmenu = tk.Menu(menubar, tearoff=0)
 padmenu.add_command(label='Save Notebook 1', command=SaveFile1)
@@ -355,6 +413,7 @@ menubar.add_cascade(
 menubar.add_command(label="Exit", command=exitwosave)
 menubar.add_command(label="Settings", command=settings)
 
+
 #FIRST PAGE
 page1.pack(fill='both', expand=True)
 pad1.pack()
@@ -366,26 +425,14 @@ openbutton1 = tk.Button(page1, image=obphoto, command = OpenFile)
 openbutton1.pack(side=LEFT)
 
 
-#SECOND PAGE
-page2.pack(fill='both', expand=True)
-pad2.pack()
-notebook.add(page2, text='Notebook 2')
-savebutton2 = tk.Button(page2, image = sbphoto, command = SaveFile2)
-savebutton2.pack(side=LEFT)
+#sys .argv setup
 
-openbutton2 = tk.Button(page2, image=obphoto, command = OpenFile)
-openbutton2.pack(side=LEFT)
-
-
-#THIRD PAGE
-page3.pack(fill='both', expand=True)
-pad3.pack()
-notebook.add(page3, text='Notebook 3')
-savebutton3 = tk.Button(page3, image = sbphoto, command = SaveFile3)
-savebutton3.pack(side=LEFT)
-
-openbutton3 = tk.Button(page3, image=obphoto, command = OpenFile)
-openbutton3.pack(side=LEFT)
-
+open_args = sys.argv
+if len(open_args) == 1:
+    pass
+elif len(open_args) == 2:
+    open_args.remove("notepad_2.5.py")
+    args = str(open_args)
+    OFArgs(args)
 
 root.mainloop()
