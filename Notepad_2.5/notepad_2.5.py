@@ -11,7 +11,7 @@ from tkinter import *
 import sys
 
 root = tk.Tk()
-root.title("Notepad Basic")
+root.title("Notepad")
 root.resizable(False, False)
 
 notebook = ttk.Notebook(root)
@@ -21,7 +21,9 @@ notebook.pack(pady=10, expand=True)
 def exitwosave():
     if messagebox.askokcancel("Quit", "Are you sure that you want to quit ?"):
             root.destroy()
-        
+
+scriptdirectory = os.getcwd()
+print(scriptdirectory)
 #CONFIG FILE GUIDE
 #config files located in appdata/config
 #config 1= saving
